@@ -500,9 +500,9 @@ namespace BaslerCamera
                 X = (float)posAct.Attribute("X");
                 Y = (float)posAct.Attribute("Y");
                 Z = (float)posAct.Attribute("Z");
-                RX = (float)posAct.Attribute("C"); // 注意这里是姿态的A
+                RZ = (float)posAct.Attribute("A"); // 注意这里是姿态的A
                 RY = (float)posAct.Attribute("B");
-                RZ = (float)posAct.Attribute("A");
+                RX = (float)posAct.Attribute("C");
 
                 // 2. 获取 Axis 节点 (读取元素 Value)
                 var axis = doc.Descendants("Axis").First();
@@ -565,9 +565,7 @@ namespace BaslerCamera
 
 
                 string info = serializationInfo(_X, _Y, _Z, _RZ, _RY, _RX, 1, "11");
-                
-                    robot.Send(info + "\r\n");
-
+                robot.Send(info + "\r\n");
             }
             else
             {

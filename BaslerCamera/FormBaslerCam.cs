@@ -54,7 +54,7 @@ namespace BaslerCamera
 
         private void btn_FindCam_Click(object sender, EventArgs e)
         {
-            if (cam.Find(out string[] names, out string[] SNs, out MV_CC_DEVICE_INFO[] DeviceList))
+            if (cam.Find(out string[] names, out string[] SNs, out string[] ManufacturerNames, out MV_CC_DEVICE_INFO[] DeviceList))
             {
                 comboBox_CamID.Items.Clear();
                 ShowMessage("找到" + DeviceList.Length + "个相机");
