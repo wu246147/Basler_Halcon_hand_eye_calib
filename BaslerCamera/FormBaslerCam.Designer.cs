@@ -53,6 +53,7 @@ namespace BaslerCamera
             this.button保存全部图像 = new System.Windows.Forms.Button();
             this.button保存图像 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.radioButton_kuka = new System.Windows.Forms.RadioButton();
             this.radioButton发那科 = new System.Windows.Forms.RadioButton();
             this.radioButton安川 = new System.Windows.Forms.RadioButton();
             this.radioButton节卡 = new System.Windows.Forms.RadioButton();
@@ -88,6 +89,8 @@ namespace BaslerCamera
             this.label29 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label42 = new System.Windows.Forms.Label();
+            this.comboBox_HandEyeCalibType = new System.Windows.Forms.ComboBox();
             this.label22 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
@@ -130,7 +133,6 @@ namespace BaslerCamera
             this.dataGridViewLog = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.radioButton_kuka = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_time)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -254,7 +256,7 @@ namespace BaslerCamera
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelWindow.Location = new System.Drawing.Point(12, 12);
             this.panelWindow.Name = "panelWindow";
-            this.panelWindow.Size = new System.Drawing.Size(783, 620);
+            this.panelWindow.Size = new System.Drawing.Size(783, 698);
             this.panelWindow.TabIndex = 26;
             // 
             // listBox图像列表
@@ -325,7 +327,7 @@ namespace BaslerCamera
             // 
             // button手眼标定
             // 
-            this.button手眼标定.Location = new System.Drawing.Point(92, 100);
+            this.button手眼标定.Location = new System.Drawing.Point(92, 138);
             this.button手眼标定.Name = "button手眼标定";
             this.button手眼标定.Size = new System.Drawing.Size(75, 23);
             this.button手眼标定.TabIndex = 33;
@@ -402,6 +404,17 @@ namespace BaslerCamera
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(269, 30);
             this.panel1.TabIndex = 37;
+            // 
+            // radioButton_kuka
+            // 
+            this.radioButton_kuka.AutoSize = true;
+            this.radioButton_kuka.Location = new System.Drawing.Point(178, 7);
+            this.radioButton_kuka.Name = "radioButton_kuka";
+            this.radioButton_kuka.Size = new System.Drawing.Size(47, 16);
+            this.radioButton_kuka.TabIndex = 0;
+            this.radioButton_kuka.Text = "库卡";
+            this.radioButton_kuka.UseVisualStyleBackColor = true;
+            this.radioButton_kuka.CheckedChanged += new System.EventHandler(this.radioButton节卡_CheckedChanged);
             // 
             // radioButton发那科
             // 
@@ -503,7 +516,7 @@ namespace BaslerCamera
             // 
             // button保存外参
             // 
-            this.button保存外参.Location = new System.Drawing.Point(257, 101);
+            this.button保存外参.Location = new System.Drawing.Point(257, 139);
             this.button保存外参.Name = "button保存外参";
             this.button保存外参.Size = new System.Drawing.Size(75, 23);
             this.button保存外参.TabIndex = 33;
@@ -742,6 +755,8 @@ namespace BaslerCamera
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox4.Controls.Add(this.label42);
+            this.groupBox4.Controls.Add(this.comboBox_HandEyeCalibType);
             this.groupBox4.Controls.Add(this.label22);
             this.groupBox4.Controls.Add(this.label25);
             this.groupBox4.Controls.Add(this.label24);
@@ -765,15 +780,36 @@ namespace BaslerCamera
             this.groupBox4.Controls.Add(this.label18);
             this.groupBox4.Location = new System.Drawing.Point(809, 638);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(343, 133);
+            this.groupBox4.Size = new System.Drawing.Size(343, 187);
             this.groupBox4.TabIndex = 37;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "工具在相机上坐标";
             // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(6, 23);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(65, 12);
+            this.label42.TabIndex = 37;
+            this.label42.Text = "标定方式：";
+            // 
+            // comboBox_HandEyeCalibType
+            // 
+            this.comboBox_HandEyeCalibType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_HandEyeCalibType.FormattingEnabled = true;
+            this.comboBox_HandEyeCalibType.Items.AddRange(new object[] {
+            "眼在手上",
+            "眼在手外"});
+            this.comboBox_HandEyeCalibType.Location = new System.Drawing.Point(77, 20);
+            this.comboBox_HandEyeCalibType.Name = "comboBox_HandEyeCalibType";
+            this.comboBox_HandEyeCalibType.Size = new System.Drawing.Size(229, 20);
+            this.comboBox_HandEyeCalibType.TabIndex = 34;
+            // 
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(177, 50);
+            this.label22.Location = new System.Drawing.Point(177, 88);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(23, 12);
             this.label22.TabIndex = 31;
@@ -782,7 +818,7 @@ namespace BaslerCamera
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(141, 77);
+            this.label25.Location = new System.Drawing.Point(141, 115);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(17, 12);
             this.label25.TabIndex = 31;
@@ -791,7 +827,7 @@ namespace BaslerCamera
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(141, 49);
+            this.label24.Location = new System.Drawing.Point(141, 87);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(17, 12);
             this.label24.TabIndex = 31;
@@ -800,7 +836,7 @@ namespace BaslerCamera
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(312, 77);
+            this.label28.Location = new System.Drawing.Point(312, 115);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(17, 12);
             this.label28.TabIndex = 31;
@@ -809,7 +845,7 @@ namespace BaslerCamera
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(312, 50);
+            this.label27.Location = new System.Drawing.Point(312, 88);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(17, 12);
             this.label27.TabIndex = 31;
@@ -818,7 +854,7 @@ namespace BaslerCamera
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(312, 23);
+            this.label26.Location = new System.Drawing.Point(312, 61);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(17, 12);
             this.label26.TabIndex = 31;
@@ -827,7 +863,7 @@ namespace BaslerCamera
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(140, 23);
+            this.label23.Location = new System.Drawing.Point(140, 61);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(17, 12);
             this.label23.TabIndex = 31;
@@ -835,7 +871,7 @@ namespace BaslerCamera
             // 
             // button_check_hand_calib
             // 
-            this.button_check_hand_calib.Location = new System.Drawing.Point(173, 101);
+            this.button_check_hand_calib.Location = new System.Drawing.Point(173, 139);
             this.button_check_hand_calib.Name = "button_check_hand_calib";
             this.button_check_hand_calib.Size = new System.Drawing.Size(75, 23);
             this.button_check_hand_calib.TabIndex = 33;
@@ -846,7 +882,7 @@ namespace BaslerCamera
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(12, 23);
+            this.label17.Location = new System.Drawing.Point(12, 61);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(17, 12);
             this.label17.TabIndex = 31;
@@ -854,7 +890,7 @@ namespace BaslerCamera
             // 
             // textBoxX
             // 
-            this.textBoxX.Location = new System.Drawing.Point(35, 19);
+            this.textBoxX.Location = new System.Drawing.Point(35, 57);
             this.textBoxX.Name = "textBoxX";
             this.textBoxX.ReadOnly = true;
             this.textBoxX.Size = new System.Drawing.Size(100, 21);
@@ -863,7 +899,7 @@ namespace BaslerCamera
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(177, 77);
+            this.label21.Location = new System.Drawing.Point(177, 115);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(23, 12);
             this.label21.TabIndex = 31;
@@ -871,7 +907,7 @@ namespace BaslerCamera
             // 
             // textBoxRX
             // 
-            this.textBoxRX.Location = new System.Drawing.Point(206, 20);
+            this.textBoxRX.Location = new System.Drawing.Point(206, 58);
             this.textBoxRX.Name = "textBoxRX";
             this.textBoxRX.ReadOnly = true;
             this.textBoxRX.Size = new System.Drawing.Size(100, 21);
@@ -879,7 +915,7 @@ namespace BaslerCamera
             // 
             // textBoxY
             // 
-            this.textBoxY.Location = new System.Drawing.Point(35, 46);
+            this.textBoxY.Location = new System.Drawing.Point(35, 84);
             this.textBoxY.Name = "textBoxY";
             this.textBoxY.ReadOnly = true;
             this.textBoxY.Size = new System.Drawing.Size(100, 21);
@@ -887,7 +923,7 @@ namespace BaslerCamera
             // 
             // textBoxRY
             // 
-            this.textBoxRY.Location = new System.Drawing.Point(206, 47);
+            this.textBoxRY.Location = new System.Drawing.Point(206, 85);
             this.textBoxRY.Name = "textBoxRY";
             this.textBoxRY.ReadOnly = true;
             this.textBoxRY.Size = new System.Drawing.Size(100, 21);
@@ -896,7 +932,7 @@ namespace BaslerCamera
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(12, 77);
+            this.label20.Location = new System.Drawing.Point(12, 115);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(17, 12);
             this.label20.TabIndex = 31;
@@ -904,7 +940,7 @@ namespace BaslerCamera
             // 
             // textBoxZ
             // 
-            this.textBoxZ.Location = new System.Drawing.Point(35, 73);
+            this.textBoxZ.Location = new System.Drawing.Point(35, 111);
             this.textBoxZ.Name = "textBoxZ";
             this.textBoxZ.ReadOnly = true;
             this.textBoxZ.Size = new System.Drawing.Size(100, 21);
@@ -913,7 +949,7 @@ namespace BaslerCamera
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(12, 50);
+            this.label19.Location = new System.Drawing.Point(12, 88);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(17, 12);
             this.label19.TabIndex = 31;
@@ -921,7 +957,7 @@ namespace BaslerCamera
             // 
             // textBoxRZ
             // 
-            this.textBoxRZ.Location = new System.Drawing.Point(206, 74);
+            this.textBoxRZ.Location = new System.Drawing.Point(206, 112);
             this.textBoxRZ.Name = "textBoxRZ";
             this.textBoxRZ.ReadOnly = true;
             this.textBoxRZ.Size = new System.Drawing.Size(100, 21);
@@ -930,7 +966,7 @@ namespace BaslerCamera
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(177, 23);
+            this.label18.Location = new System.Drawing.Point(177, 61);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(23, 12);
             this.label18.TabIndex = 31;
@@ -1151,7 +1187,7 @@ namespace BaslerCamera
             this.dataGridViewLog.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2});
-            this.dataGridViewLog.Location = new System.Drawing.Point(12, 638);
+            this.dataGridViewLog.Location = new System.Drawing.Point(12, 716);
             this.dataGridViewLog.Name = "dataGridViewLog";
             this.dataGridViewLog.ReadOnly = true;
             this.dataGridViewLog.RowHeadersVisible = false;
@@ -1181,22 +1217,11 @@ namespace BaslerCamera
             this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column2.Width = 612;
             // 
-            // radioButton_kuka
-            // 
-            this.radioButton_kuka.AutoSize = true;
-            this.radioButton_kuka.Location = new System.Drawing.Point(178, 7);
-            this.radioButton_kuka.Name = "radioButton_kuka";
-            this.radioButton_kuka.Size = new System.Drawing.Size(47, 16);
-            this.radioButton_kuka.TabIndex = 0;
-            this.radioButton_kuka.Text = "库卡";
-            this.radioButton_kuka.UseVisualStyleBackColor = true;
-            this.radioButton_kuka.CheckedChanged += new System.EventHandler(this.radioButton节卡_CheckedChanged);
-            // 
             // FormBaslerCam
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1164, 783);
+            this.ClientSize = new System.Drawing.Size(1164, 861);
             this.Controls.Add(this.dataGridViewLog);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox4);
@@ -1328,6 +1353,8 @@ namespace BaslerCamera
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.Button button_check_hand_calib;
         private System.Windows.Forms.RadioButton radioButton_kuka;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.ComboBox comboBox_HandEyeCalibType;
     }
 }
 

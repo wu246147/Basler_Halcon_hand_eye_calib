@@ -343,6 +343,8 @@ namespace BaslerCamera
             timer.Interval = 100;
             timer.Tick += InitRobot;
             timer.Start();
+
+            comboBox_HandEyeCalibType.SelectedIndex = 0;
         }
 
         private void InitRobot(object sender, EventArgs e)
@@ -794,6 +796,8 @@ namespace BaslerCamera
         {
             if (Images.Count > 0)
             {
+                int HandEyeCalibType = comboBox_HandEyeCalibType.SelectedIndex;
+
                 try
                 {
                     HTuple hv_TmpCtrl_FindCalObjParNames = new HTuple();
@@ -849,22 +853,33 @@ namespace BaslerCamera
                     HOperatorSet.GetCalibData(hv_CalibHandle, "model", "general", "camera_calib_error", out HTuple hv_CamCalibError);
                     //获取相机的参数
                     HOperatorSet.GetCalibData(hv_CalibHandle, "camera", 0, "params", out HTuple hv_CamParam);
-                    //获取机械手末端夹具在相机坐标系下的坐标
-                    HOperatorSet.GetCalibData(hv_CalibHandle, "camera", 0, "tool_in_cam_pose", out HTuple hv_ToolInCamPose);
-                    //计算标定板在基座坐标系下的坐标
-                    HOperatorSet.GetCalibData(hv_CalibHandle, "calib_obj", 0, "obj_in_base_pose", out HTuple hv_CalObjInBasePose);
-
-                    //相机在机械手末端夹具坐标系下的坐标
-                    HOperatorSet.PoseInvert(hv_ToolInCamPose, out HTuple hv_CamInToolPose);
+                  
 
                     ShowMessage($"相机标定误差：{hv_CamCalibError}像素");
                     ShowMessage($"手眼标定误差：RMS({hv_Errors[0].D * 1000:G6}mm，{hv_Errors[1].D:G6}°),最大({hv_Errors[2].D * 1000:G6}mm，{hv_Errors[3].D:G6}°)");
                     ShowMessage($"相机参数：" + hv_CamParam.ToString());
-                    ShowMessage($"机械手末端夹具在相机坐标系下的坐标：" + hv_ToolInCamPose.ToString());
-                    ShowMessage($"相机在机械手末端夹具坐标系下的坐标：" + hv_CamInToolPose.ToString());
-                    ShowMessage($"标定板在基座坐标系下的坐标：" + hv_CalObjInBasePose.ToString());
-                    //显示数据
-                    ShowCamPose(hv_ToolInCamPose);
+
+                    if (HandEyeCalibType == 0)
+                    {
+                        //获取机械手末端夹具在相机坐标系下的坐标
+                        HOperatorSet.GetCalibData(hv_CalibHandle, "camera", 0, "tool_in_cam_pose", out HTuple hv_ToolInCamPose);
+                        //计算标定板在基座坐标系下的坐标
+                        HOperatorSet.GetCalibData(hv_CalibHandle, "calib_obj", 0, "obj_in_base_pose", out HTuple hv_CalObjInBasePose);
+                        //相机在机械手末端夹具坐标系下的坐标
+                        HOperatorSet.PoseInvert(hv_ToolInCamPose, out HTuple hv_CamInToolPose);
+                        ShowMessage($"机械手末端夹具在相机坐标系下的坐标：" + hv_ToolInCamPose.ToString());
+                        ShowMessage($"相机在机械手末端夹具坐标系下的坐标：" + hv_CamInToolPose.ToString());
+                        ShowMessage($"标定板在基座坐标系下的坐标：" + hv_CalObjInBasePose.ToString());
+                        //显示数据
+                        ShowCamPose(hv_ToolInCamPose);
+                    }
+                    else
+                    {
+                        HOperatorSet.GetCalibData(hv_CalibHandle, "camera", 0,
+                            "cam_in_base_pose", out HTuple hv_CamInBasePose);
+                        ShowMessage($"相机在机器人基座坐标系下的坐标：" + hv_CamInBasePose.ToString());
+                        ShowCamPose(hv_CamInBasePose);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -2077,10 +2092,19 @@ namespace BaslerCamera
         {
             if (ToolInCamPose != null)
             {
+                int HandEyeCalibType = comboBox_HandEyeCalibType.SelectedIndex;
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Title = "选择要保存的位置";
                 sfd.Filter = "Pose(*.dat)|*.dat";
-                sfd.FileName = "ToolInCam.dat";
+                if (HandEyeCalibType == 0)
+                {
+                    sfd.FileName = "ToolInCam.dat";
+                }
+                else
+                {
+                    sfd.FileName = "CamInBase.dat";
+
+                }
                 if (DialogResult.OK == sfd.ShowDialog())
                 {
                     try
@@ -2234,5 +2258,6 @@ namespace BaslerCamera
                 robot.Close();
             }
         }
+
     }
 }
