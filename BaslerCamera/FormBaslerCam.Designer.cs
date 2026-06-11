@@ -133,6 +133,7 @@ namespace BaslerCamera
             this.dataGridViewLog = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.radioButton_kawasaki = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_time)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -396,13 +397,14 @@ namespace BaslerCamera
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.radioButton_kawasaki);
             this.panel1.Controls.Add(this.radioButton_kuka);
             this.panel1.Controls.Add(this.radioButton发那科);
             this.panel1.Controls.Add(this.radioButton安川);
             this.panel1.Controls.Add(this.radioButton节卡);
             this.panel1.Location = new System.Drawing.Point(63, 26);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(269, 30);
+            this.panel1.Size = new System.Drawing.Size(280, 30);
             this.panel1.TabIndex = 37;
             // 
             // radioButton_kuka
@@ -1217,6 +1219,17 @@ namespace BaslerCamera
             this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column2.Width = 612;
             // 
+            // radioButton_kawasaki
+            // 
+            this.radioButton_kawasaki.AutoSize = true;
+            this.radioButton_kawasaki.Location = new System.Drawing.Point(227, 7);
+            this.radioButton_kawasaki.Name = "radioButton_kawasaki";
+            this.radioButton_kawasaki.Size = new System.Drawing.Size(47, 16);
+            this.radioButton_kawasaki.TabIndex = 0;
+            this.radioButton_kawasaki.Text = "川崎";
+            this.radioButton_kawasaki.UseVisualStyleBackColor = true;
+            this.radioButton_kawasaki.CheckedChanged += new System.EventHandler(this.radioButton节卡_CheckedChanged);
+            // 
             // FormBaslerCam
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1355,6 +1368,7 @@ namespace BaslerCamera
         private System.Windows.Forms.RadioButton radioButton_kuka;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.ComboBox comboBox_HandEyeCalibType;
+        private System.Windows.Forms.RadioButton radioButton_kawasaki;
     }
 }
 

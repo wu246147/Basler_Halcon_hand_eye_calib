@@ -102,7 +102,7 @@ namespace BaslerCamera
                 {
                     Image序号++;
                     Images.Add(Image序号.ToString("D3"), ho_Image);
-                    if (robot.GetType() != typeof(KukaRobot))
+                    if (robot.GetType() != typeof(KukaRobot) && robot.GetType() != typeof(KawasakiRobot))
                     {
                         //连的上就保存，连不上，就跳过
                         if (robot.Open(textBoxRobotIP.Text, int.Parse(textBoxRobotPort.Text)))
@@ -176,6 +176,7 @@ namespace BaslerCamera
         void KeepShot(HObject ho_Image)
         {
             lastImage = ho_Image;
+
             ShowCalibImage(ho_Image, false);
         }
         private void btn_CloseCam_Click(object sender, EventArgs e)
@@ -349,7 +350,7 @@ namespace BaslerCamera
 
         private void InitRobot(object sender, EventArgs e)
         {
-            if (robot.GetType() == typeof(KukaRobot) && radioButton_kuka.Checked)
+            if ((robot.GetType() == typeof(KukaRobot) && radioButton_kuka.Checked)|| robot.GetType() == typeof(KawasakiRobot) && radioButton_kawasaki.Checked)
             {
 
                 if (textBoxRobotIP.Text != "" && textBoxRobotPort.Text != "" && !robot.isOpen())
@@ -459,7 +460,7 @@ namespace BaslerCamera
 
         HTuple hv_StartParameters = null;
 
-        private HTuple GetCalibHandle(HTuple imageW, HTuple imageH)
+        private HTuple GetCalibHandle(HTuple imageW, HTuple imageH, int HandEyeCalibType)
         {
             hv_StartParameters = new HTuple();
             if (checkBox手动输入.Checked)
@@ -504,8 +505,16 @@ namespace BaslerCamera
                     throw new Exception("相机内参格式长度异常");
                 }
             }
+            HTuple hv_CalibHandle;
+            if (HandEyeCalibType == 0)
+            {
+                HOperatorSet.CreateCalibData("hand_eye_moving_cam", 1, 1, out hv_CalibHandle); //创建一个标定数据对象
 
-            HOperatorSet.CreateCalibData("hand_eye_moving_cam", 1, 1, out HTuple hv_CalibHandle); //创建一个标定数据对象
+            }
+            else
+            {
+                HOperatorSet.CreateCalibData("hand_eye_stationary_cam", 1, 1, out hv_CalibHandle); //创建一个标定数据对象
+            }
             HOperatorSet.SetCalibDataCamParam(hv_CalibHandle, 0, "area_scan_division", hv_StartParameters);
             if (textBox描述文件路径.Text == "")
             {
@@ -531,6 +540,8 @@ namespace BaslerCamera
             if (listBox图像列表.SelectedIndex != -1)
             {
                 string key = (string)listBox图像列表.SelectedItem;
+                int HandEyeCalibType = comboBox_HandEyeCalibType.SelectedIndex;
+
                 ShowImage(null);
                 ShowCalibImage(Images[key]);
                 if(RobotPoses.ContainsKey(key))
@@ -555,7 +566,7 @@ namespace BaslerCamera
                 hv_TmpCtrl_FindCalObjParValues[2] = "false";
 
                 HOperatorSet.GetImageSize(ho_Image, out HTuple width, out HTuple height);
-                HTuple hv_CalibHandle = GetCalibHandle(width, height);
+                HTuple hv_CalibHandle = GetCalibHandle(width, height, 0);
 
                 //HOperatorSet.FindCalibObject(ho_Image, hv_CalibHandle, 0, 0, ImageID, hv_TmpCtrl_FindCalObjParNames, hv_TmpCtrl_FindCalObjParValues);
                 HOperatorSet.FindCalibObject(ho_Image, hv_CalibHandle, 0, 0, 0, hv_TmpCtrl_FindCalObjParNames, hv_TmpCtrl_FindCalObjParValues);
@@ -827,7 +838,7 @@ namespace BaslerCamera
                         if (hv_CalibHandle == null)
                         {
                             HOperatorSet.GetImageSize(Images[item], out HTuple width, out HTuple height);
-                            hv_CalibHandle = GetCalibHandle(width, height);
+                            hv_CalibHandle = GetCalibHandle(width, height, HandEyeCalibType);
 
                         }
                         try
@@ -876,7 +887,9 @@ namespace BaslerCamera
                     else
                     {
                         HOperatorSet.GetCalibData(hv_CalibHandle, "camera", 0,
-                            "cam_in_base_pose", out HTuple hv_CamInBasePose);
+                            "base_in_cam_pose", out HTuple hv_BaseInCamPose);
+                        ShowMessage($"机器人基座在相机坐标系下的坐标：" + hv_BaseInCamPose.ToString());
+                        HOperatorSet.PoseInvert(hv_BaseInCamPose, out HTuple hv_CamInBasePose);
                         ShowMessage($"相机在机器人基座坐标系下的坐标：" + hv_CamInBasePose.ToString());
                         ShowCamPose(hv_CamInBasePose);
                     }
@@ -2125,7 +2138,7 @@ namespace BaslerCamera
         private void radioButton节卡_CheckedChanged(object sender, EventArgs e)
         {
             //先判断一下是不是库卡机器人，是的话，要先关闭通讯
-            if (robot.GetType() == typeof(KukaRobot))
+            if (robot.GetType() == typeof(KukaRobot) || robot.GetType() == typeof(KawasakiRobot))
             {
                 robot.Close();
             }
@@ -2146,6 +2159,10 @@ namespace BaslerCamera
             {
                 robot = new KukaRobot();
             }
+            else if (radioButton_kawasaki.Checked)
+            {
+                robot = new KawasakiRobot();
+            }
             else
             {
                 robot = new JAKARobot();
@@ -2156,7 +2173,7 @@ namespace BaslerCamera
         {
             try
             {
-                if (robot.GetType() != typeof(KukaRobot))
+                if (robot.GetType() != typeof(KukaRobot)&& robot.GetType() != typeof(KawasakiRobot))
                 {
                     //连的上就保存，连不上，就跳过
                     if (robot.Open(textBoxRobotIP.Text, int.Parse(textBoxRobotPort.Text)))
@@ -2245,7 +2262,7 @@ namespace BaslerCamera
 
         private void textBoxRobotIP_TextChanged(object sender, EventArgs e)
         {
-            if (robot.GetType() == typeof(KukaRobot))
+            if (robot.GetType() == typeof(KukaRobot)|| robot.GetType() == typeof(KawasakiRobot))
             {
                 robot.Close();
             }
@@ -2253,7 +2270,7 @@ namespace BaslerCamera
 
         private void textBoxRobotPort_TextChanged(object sender, EventArgs e)
         {
-            if (robot.GetType() == typeof(KukaRobot))
+            if (robot.GetType() == typeof(KukaRobot)|| robot.GetType() == typeof(KawasakiRobot))
             {
                 robot.Close();
             }
