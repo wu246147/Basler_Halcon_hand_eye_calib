@@ -53,6 +53,7 @@ namespace BaslerCamera
             this.button保存全部图像 = new System.Windows.Forms.Button();
             this.button保存图像 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.radioButton_kawasaki = new System.Windows.Forms.RadioButton();
             this.radioButton_kuka = new System.Windows.Forms.RadioButton();
             this.radioButton发那科 = new System.Windows.Forms.RadioButton();
             this.radioButton安川 = new System.Windows.Forms.RadioButton();
@@ -133,7 +134,7 @@ namespace BaslerCamera
             this.dataGridViewLog = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.radioButton_kawasaki = new System.Windows.Forms.RadioButton();
+            this.radioButton_kuka_server = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_time)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -398,14 +399,26 @@ namespace BaslerCamera
             // panel1
             // 
             this.panel1.Controls.Add(this.radioButton_kawasaki);
+            this.panel1.Controls.Add(this.radioButton_kuka_server);
             this.panel1.Controls.Add(this.radioButton_kuka);
             this.panel1.Controls.Add(this.radioButton发那科);
             this.panel1.Controls.Add(this.radioButton安川);
             this.panel1.Controls.Add(this.radioButton节卡);
             this.panel1.Location = new System.Drawing.Point(63, 26);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(280, 30);
+            this.panel1.Size = new System.Drawing.Size(280, 68);
             this.panel1.TabIndex = 37;
+            // 
+            // radioButton_kawasaki
+            // 
+            this.radioButton_kawasaki.AutoSize = true;
+            this.radioButton_kawasaki.Location = new System.Drawing.Point(227, 7);
+            this.radioButton_kawasaki.Name = "radioButton_kawasaki";
+            this.radioButton_kawasaki.Size = new System.Drawing.Size(47, 16);
+            this.radioButton_kawasaki.TabIndex = 0;
+            this.radioButton_kawasaki.Text = "川崎";
+            this.radioButton_kawasaki.UseVisualStyleBackColor = true;
+            this.radioButton_kawasaki.CheckedChanged += new System.EventHandler(this.radioButton节卡_CheckedChanged);
             // 
             // radioButton_kuka
             // 
@@ -464,7 +477,7 @@ namespace BaslerCamera
             // 
             // textBoxRobotPort
             // 
-            this.textBoxRobotPort.Location = new System.Drawing.Point(189, 67);
+            this.textBoxRobotPort.Location = new System.Drawing.Point(189, 101);
             this.textBoxRobotPort.Name = "textBoxRobotPort";
             this.textBoxRobotPort.Size = new System.Drawing.Size(59, 21);
             this.textBoxRobotPort.TabIndex = 35;
@@ -472,7 +485,7 @@ namespace BaslerCamera
             // 
             // textBoxRobotIP
             // 
-            this.textBoxRobotIP.Location = new System.Drawing.Point(41, 67);
+            this.textBoxRobotIP.Location = new System.Drawing.Point(41, 101);
             this.textBoxRobotIP.Name = "textBoxRobotIP";
             this.textBoxRobotIP.Size = new System.Drawing.Size(100, 21);
             this.textBoxRobotIP.TabIndex = 35;
@@ -480,7 +493,7 @@ namespace BaslerCamera
             // 
             // buttonGetRobotPose
             // 
-            this.buttonGetRobotPose.Location = new System.Drawing.Point(254, 66);
+            this.buttonGetRobotPose.Location = new System.Drawing.Point(254, 100);
             this.buttonGetRobotPose.Name = "buttonGetRobotPose";
             this.buttonGetRobotPose.Size = new System.Drawing.Size(75, 23);
             this.buttonGetRobotPose.TabIndex = 34;
@@ -491,7 +504,7 @@ namespace BaslerCamera
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(148, 71);
+            this.label4.Location = new System.Drawing.Point(148, 105);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(35, 12);
             this.label4.TabIndex = 31;
@@ -500,7 +513,7 @@ namespace BaslerCamera
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 71);
+            this.label2.Location = new System.Drawing.Point(12, 105);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(23, 12);
             this.label2.TabIndex = 31;
@@ -780,7 +793,7 @@ namespace BaslerCamera
             this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.textBoxRZ);
             this.groupBox4.Controls.Add(this.label18);
-            this.groupBox4.Location = new System.Drawing.Point(809, 638);
+            this.groupBox4.Location = new System.Drawing.Point(809, 667);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(343, 187);
             this.groupBox4.TabIndex = 37;
@@ -1006,7 +1019,7 @@ namespace BaslerCamera
             this.groupBox2.Controls.Add(this.label40);
             this.groupBox2.Location = new System.Drawing.Point(809, 415);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(343, 217);
+            this.groupBox2.Size = new System.Drawing.Size(343, 246);
             this.groupBox2.TabIndex = 37;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "机器人坐标";
@@ -1014,7 +1027,7 @@ namespace BaslerCamera
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(177, 136);
+            this.label3.Location = new System.Drawing.Point(177, 170);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(23, 12);
             this.label3.TabIndex = 31;
@@ -1023,7 +1036,7 @@ namespace BaslerCamera
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(141, 163);
+            this.label5.Location = new System.Drawing.Point(141, 197);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(17, 12);
             this.label5.TabIndex = 31;
@@ -1032,7 +1045,7 @@ namespace BaslerCamera
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(141, 135);
+            this.label6.Location = new System.Drawing.Point(141, 169);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(17, 12);
             this.label6.TabIndex = 31;
@@ -1041,7 +1054,7 @@ namespace BaslerCamera
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(312, 163);
+            this.label15.Location = new System.Drawing.Point(312, 197);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(17, 12);
             this.label15.TabIndex = 31;
@@ -1050,7 +1063,7 @@ namespace BaslerCamera
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(312, 136);
+            this.label33.Location = new System.Drawing.Point(312, 170);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(17, 12);
             this.label33.TabIndex = 31;
@@ -1059,7 +1072,7 @@ namespace BaslerCamera
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(312, 109);
+            this.label34.Location = new System.Drawing.Point(312, 143);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(17, 12);
             this.label34.TabIndex = 31;
@@ -1068,7 +1081,7 @@ namespace BaslerCamera
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(140, 109);
+            this.label35.Location = new System.Drawing.Point(140, 143);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(17, 12);
             this.label35.TabIndex = 31;
@@ -1076,7 +1089,7 @@ namespace BaslerCamera
             // 
             // button保存坐标
             // 
-            this.button保存坐标.Location = new System.Drawing.Point(256, 186);
+            this.button保存坐标.Location = new System.Drawing.Point(256, 220);
             this.button保存坐标.Name = "button保存坐标";
             this.button保存坐标.Size = new System.Drawing.Size(75, 23);
             this.button保存坐标.TabIndex = 33;
@@ -1087,7 +1100,7 @@ namespace BaslerCamera
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(12, 109);
+            this.label36.Location = new System.Drawing.Point(12, 143);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(17, 12);
             this.label36.TabIndex = 31;
@@ -1095,7 +1108,7 @@ namespace BaslerCamera
             // 
             // textBoxRobotX
             // 
-            this.textBoxRobotX.Location = new System.Drawing.Point(35, 105);
+            this.textBoxRobotX.Location = new System.Drawing.Point(35, 139);
             this.textBoxRobotX.Name = "textBoxRobotX";
             this.textBoxRobotX.ReadOnly = true;
             this.textBoxRobotX.Size = new System.Drawing.Size(100, 21);
@@ -1104,7 +1117,7 @@ namespace BaslerCamera
             // label37
             // 
             this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(177, 163);
+            this.label37.Location = new System.Drawing.Point(177, 197);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(23, 12);
             this.label37.TabIndex = 31;
@@ -1112,7 +1125,7 @@ namespace BaslerCamera
             // 
             // textBoxRobotRX
             // 
-            this.textBoxRobotRX.Location = new System.Drawing.Point(206, 106);
+            this.textBoxRobotRX.Location = new System.Drawing.Point(206, 140);
             this.textBoxRobotRX.Name = "textBoxRobotRX";
             this.textBoxRobotRX.ReadOnly = true;
             this.textBoxRobotRX.Size = new System.Drawing.Size(100, 21);
@@ -1120,7 +1133,7 @@ namespace BaslerCamera
             // 
             // textBoxRobotY
             // 
-            this.textBoxRobotY.Location = new System.Drawing.Point(35, 132);
+            this.textBoxRobotY.Location = new System.Drawing.Point(35, 166);
             this.textBoxRobotY.Name = "textBoxRobotY";
             this.textBoxRobotY.ReadOnly = true;
             this.textBoxRobotY.Size = new System.Drawing.Size(100, 21);
@@ -1128,7 +1141,7 @@ namespace BaslerCamera
             // 
             // textBoxRobotRY
             // 
-            this.textBoxRobotRY.Location = new System.Drawing.Point(206, 133);
+            this.textBoxRobotRY.Location = new System.Drawing.Point(206, 167);
             this.textBoxRobotRY.Name = "textBoxRobotRY";
             this.textBoxRobotRY.ReadOnly = true;
             this.textBoxRobotRY.Size = new System.Drawing.Size(100, 21);
@@ -1137,7 +1150,7 @@ namespace BaslerCamera
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(12, 163);
+            this.label38.Location = new System.Drawing.Point(12, 197);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(17, 12);
             this.label38.TabIndex = 31;
@@ -1145,7 +1158,7 @@ namespace BaslerCamera
             // 
             // textBoxRobotZ
             // 
-            this.textBoxRobotZ.Location = new System.Drawing.Point(35, 159);
+            this.textBoxRobotZ.Location = new System.Drawing.Point(35, 193);
             this.textBoxRobotZ.Name = "textBoxRobotZ";
             this.textBoxRobotZ.ReadOnly = true;
             this.textBoxRobotZ.Size = new System.Drawing.Size(100, 21);
@@ -1154,7 +1167,7 @@ namespace BaslerCamera
             // label39
             // 
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(12, 136);
+            this.label39.Location = new System.Drawing.Point(12, 170);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(17, 12);
             this.label39.TabIndex = 31;
@@ -1162,7 +1175,7 @@ namespace BaslerCamera
             // 
             // textBoxRobotRZ
             // 
-            this.textBoxRobotRZ.Location = new System.Drawing.Point(206, 160);
+            this.textBoxRobotRZ.Location = new System.Drawing.Point(206, 194);
             this.textBoxRobotRZ.Name = "textBoxRobotRZ";
             this.textBoxRobotRZ.ReadOnly = true;
             this.textBoxRobotRZ.Size = new System.Drawing.Size(100, 21);
@@ -1171,7 +1184,7 @@ namespace BaslerCamera
             // label40
             // 
             this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(177, 109);
+            this.label40.Location = new System.Drawing.Point(177, 143);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(23, 12);
             this.label40.TabIndex = 31;
@@ -1219,16 +1232,16 @@ namespace BaslerCamera
             this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column2.Width = 612;
             // 
-            // radioButton_kawasaki
+            // radioButton_kuka_server
             // 
-            this.radioButton_kawasaki.AutoSize = true;
-            this.radioButton_kawasaki.Location = new System.Drawing.Point(227, 7);
-            this.radioButton_kawasaki.Name = "radioButton_kawasaki";
-            this.radioButton_kawasaki.Size = new System.Drawing.Size(47, 16);
-            this.radioButton_kawasaki.TabIndex = 0;
-            this.radioButton_kawasaki.Text = "川崎";
-            this.radioButton_kawasaki.UseVisualStyleBackColor = true;
-            this.radioButton_kawasaki.CheckedChanged += new System.EventHandler(this.radioButton节卡_CheckedChanged);
+            this.radioButton_kuka_server.AutoSize = true;
+            this.radioButton_kuka_server.Location = new System.Drawing.Point(7, 40);
+            this.radioButton_kuka_server.Name = "radioButton_kuka_server";
+            this.radioButton_kuka_server.Size = new System.Drawing.Size(83, 16);
+            this.radioButton_kuka_server.TabIndex = 0;
+            this.radioButton_kuka_server.Text = "库卡服务器";
+            this.radioButton_kuka_server.UseVisualStyleBackColor = true;
+            this.radioButton_kuka_server.CheckedChanged += new System.EventHandler(this.radioButton节卡_CheckedChanged);
             // 
             // FormBaslerCam
             // 
@@ -1369,6 +1382,7 @@ namespace BaslerCamera
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.ComboBox comboBox_HandEyeCalibType;
         private System.Windows.Forms.RadioButton radioButton_kawasaki;
+        private System.Windows.Forms.RadioButton radioButton_kuka_server;
     }
 }
 

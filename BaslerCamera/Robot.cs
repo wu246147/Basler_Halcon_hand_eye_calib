@@ -5,9 +5,11 @@ using HslCommunication.Core;
 using HslCommunication.Robot.YASKAWA;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -655,6 +657,178 @@ namespace BaslerCamera
             if(robot != null)
             {
                 robot.StopListen();
+            }
+            _isOpen = false;
+            return true;
+        }
+    }
+
+
+    public class KukaServerRobot : IRobot
+    {
+        public string ErrMsg => _errMsg;
+        string _errMsg;
+        public bool IsOpen => _isOpen;
+        bool _isOpen = false;
+
+        string _ip = string.Empty;
+        int _port = 60008;
+        //HslCommunication.Robot.FANUC.FanucInterfaceNet robot = new HslCommunication.Robot.FANUC.FanucInterfaceNet();
+
+        //TCP_Server robot;
+        HslCommunication.Robot.KUKA.KukaTcpNet robot = new HslCommunication.Robot.KUKA.KukaTcpNet();
+
+
+        //寄存数据
+        bool _isExist = false;
+        float _X = 0, _Y = 0, _Z = 0, _RX = 0, _RY = 0, _RZ = 0,
+            _R1 = 0, _R2 = 0, _R3 = 0, _R4 = 0, _R5 = 0, _R6 = 0;
+        int _programID = 0, _commandID = 0, _pointID = 0;
+
+        bool _isConnected = false;
+
+        public KukaServerRobot()
+        {
+
+        }
+
+        public bool FormatTransform(string info, out HPose hPose)
+        {
+            hPose = new HPose();
+            try
+            {
+                var pattern = @"\b([XYZABC])\s+([-+]?\d*\.?\d+)";
+                var matches = Regex.Matches(info, pattern);
+
+                var dict = new Dictionary<string, double>();
+                foreach (Match m in matches)
+                {
+                    dict[m.Groups[1].Value] = double.Parse(m.Groups[2].Value, CultureInfo.InvariantCulture);
+                }
+                double x_value,y_value,z_value,rx_value,ry_value,rz_value;
+                if (dict.ContainsKey("X"))
+                {
+                    double x = dict["X"];
+                    x_value = x / 1000;
+                }
+                else { return false; }
+
+                if (dict.ContainsKey("Y"))
+                {
+                    double y = dict["Y"];
+                    y_value = y / 1000;
+                }
+                else { return false; }
+                if (dict.ContainsKey("Z"))
+                {
+                    double z = dict["Z"];
+                    z_value = z / 1000;
+                }
+                else { return false; }
+                if (dict.ContainsKey("A"))
+                {
+                    double a = dict["A"];
+                    rz_value = a;
+                }
+                else { return false; }
+                if (dict.ContainsKey("B"))
+                {
+                    double b = dict["B"];
+                    ry_value = b;
+                }
+                else { return false; }
+                if (dict.ContainsKey("C"))
+                {
+                    double c = dict["C"];
+                    rx_value = c;
+                }
+                else { return false; }
+
+                //hPose[7] = 2;
+
+                hPose = new HPose(x_value, y_value, z_value, rx_value, ry_value, rz_value, "Rp+T", "abg", "point");
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        public bool ReadPose(out HPose hPose)
+        {
+            bool rt = Read("$POS_ACT", out string info);
+            hPose = new HPose();
+
+            if (rt)
+            {
+                rt = FormatTransform(info, out hPose);
+            }
+
+
+            return rt;
+        }
+        public bool Read(string key, out string info)
+        {
+            var value = robot.ReadString(key);
+
+            info = value.Content;
+            return value.IsSuccess;
+        }
+
+        public bool Load()
+        {
+            _ip = "192.168.255.1";
+            _port = 60008;
+            return true;
+        }
+
+        public bool Save()
+        {
+            return true;
+        }
+
+        public bool isOpen()
+        {
+            return IsOpen;
+        }
+
+        public bool isConnected()
+        {
+            return true;
+        }
+        public bool Open()
+        {
+            robot.IpAddress = _ip;
+            robot.Port = _port;
+            robot.ConnectTimeOut = 5000;     // 连接超时，单位毫秒
+            robot.ReceiveTimeOut = 3000;     // 接收超时，单位毫秒
+
+            var result = robot.ConnectServer();
+            if (result.IsSuccess)
+            {
+                _isOpen = true;
+                return true;
+            }
+            else
+            {
+                _errMsg = result.Message;
+                return false;
+            }
+        }
+        public bool Open(string ip, int port)
+        {
+            _ip = ip;
+            _port = port;
+            return Open();
+        }
+
+        public bool Close()
+        {
+            if (robot != null)
+            {
+                robot.ConnectClose();
             }
             _isOpen = false;
             return true;

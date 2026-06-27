@@ -355,7 +355,14 @@ namespace BaslerCamera
 
                 if (textBoxRobotIP.Text != "" && textBoxRobotPort.Text != "" && !robot.isOpen())
                 {
-                    robot.Open(textBoxRobotIP.Text, int.Parse(textBoxRobotPort.Text));
+                    try
+                    {
+                        robot.Open(textBoxRobotIP.Text, int.Parse(textBoxRobotPort.Text));
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
                 }
 
 
@@ -2162,6 +2169,10 @@ namespace BaslerCamera
             else if (radioButton_kawasaki.Checked)
             {
                 robot = new KawasakiRobot();
+            }
+            else if (radioButton_kuka_server.Checked)
+            {
+                robot = new KukaServerRobot();
             }
             else
             {
