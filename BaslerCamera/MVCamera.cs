@@ -5661,7 +5661,7 @@ namespace BaslerCamera
 
                 if (isDebug)
                 {
-                    if (_manufacturerName == "Hikrobot")
+                    if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
                     {
                         //触发模式
                         if (!SetTriggerMode(TriggerMode.Off))
@@ -5718,7 +5718,7 @@ namespace BaslerCamera
                 }
                 else
                 {
-                    if (_manufacturerName == "Hikrobot")
+                    if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
                     {
                         if (!SetLine2Mode(LineMode.Strobe))
                         {
@@ -5995,7 +5995,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool SetAcquisitionMode(AcquisitionMode value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetEnumValue("AcquisitionMode", (uint)value);
 
@@ -6018,7 +6018,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool SetTriggerCacheEnable(bool value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetBoolValue("TriggerCacheEnable", value);
 
@@ -6040,7 +6040,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool SetTriggerMode(TriggerMode value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetEnumValue("TriggerMode", (uint)value);
 
@@ -6058,7 +6058,7 @@ namespace BaslerCamera
 
         public bool SetExposureAuto(ExposureAuto value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetEnumValue("ExposureAuto", (uint)value);
             }
@@ -6075,21 +6075,22 @@ namespace BaslerCamera
 
         public bool SetExposure(float value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
-                if (value < 15)
+                try
                 {
-                    if (!SetEnumValue("ExposureTimeMode", (uint)ExposureTimeMode.UltraShort))
+                    if (value < 15)
                     {
-                        return false;
+                        SetEnumValue("ExposureTimeMode", (uint)ExposureTimeMode.UltraShort);
+                    }
+                    else
+                    {
+                        SetEnumValue("ExposureTimeMode", (uint)ExposureTimeMode.Standard);
                     }
                 }
-                else
+                catch (Exception)
                 {
-                    if (!SetEnumValue("ExposureTimeMode", (uint)ExposureTimeMode.Standard))
-                    {
-                        return false;
-                    }
+
                 }
                 return SetFloatValue("ExposureTime", value);
             }
@@ -6105,7 +6106,7 @@ namespace BaslerCamera
         }
         public bool GetExposure(out float value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return GetFloatValue("ExposureTime", out value);
             }
@@ -6127,7 +6128,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool SetAcquisitionFrameRate(float value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetFloatValue("AcquisitionFrameRate", value);
             }
@@ -6147,7 +6148,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool GetAcquisitionFrameRate(out float value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return GetFloatValue("AcquisitionFrameRate", out value);
             }
@@ -6172,7 +6173,7 @@ namespace BaslerCamera
         public bool SetAcquisitionFrameRateEnable(bool value)
         {
 
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetBoolValue("AcquisitionFrameRateEnable", value);
             }
@@ -6192,7 +6193,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool GetAcquisitionFrameRateEnable(out bool value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return GetBoolValue("AcquisitionFrameRateEnable", out value);
             }
@@ -6214,7 +6215,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool GetResultingFrameRate(out float value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return GetFloatValue("ResultingFrameRate", out value);
             }
@@ -6232,7 +6233,7 @@ namespace BaslerCamera
         }
         public bool SetWidth(long value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetIntValue("Width", value);
             }
@@ -6248,7 +6249,7 @@ namespace BaslerCamera
         }
         public bool GetWidth(out long value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return GetIntValue("Width", out value);
             }
@@ -6264,7 +6265,7 @@ namespace BaslerCamera
         }
         public bool GetWidthMax(out long value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return GetIntValue("WidthMax", out value);
             }
@@ -6280,7 +6281,7 @@ namespace BaslerCamera
         }
         public bool SetHeight(long value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetIntValue("Height", value);
             }
@@ -6296,7 +6297,7 @@ namespace BaslerCamera
         }
         public bool GetHeight(out long value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return GetIntValue("Height", out value);
             }
@@ -6312,7 +6313,7 @@ namespace BaslerCamera
         }
         public bool GetHeightMax(out long value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return GetIntValue("HeightMax", out value);
             }
@@ -6328,7 +6329,7 @@ namespace BaslerCamera
         }
         public bool SetOffsetX(long value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetIntValue("OffsetX", value);
             }
@@ -6344,7 +6345,7 @@ namespace BaslerCamera
         }
         public bool GetOffsetX(out long value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return GetIntValue("OffsetX", out value);
             }
@@ -6360,7 +6361,7 @@ namespace BaslerCamera
         }
         public bool SetOffsetY(long value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetIntValue("OffsetY", value);
             }
@@ -6376,7 +6377,7 @@ namespace BaslerCamera
         }
         public bool GetOffsetY(out long value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return GetIntValue("OffsetY", out value);
             }
@@ -6397,7 +6398,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool SetReverseX(bool value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetBoolValue("ReverseX", value);
             }
@@ -6419,7 +6420,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool SetReverseY(bool value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetBoolValue("ReverseY", value);
             }
@@ -6441,7 +6442,7 @@ namespace BaslerCamera
         /// <returns></returns>
         bool SetFrameSpecInfoSelector(FrameSpecInfoSelector value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetEnumValue("FrameSpecInfoSelector", (uint)value);
             }
@@ -6462,7 +6463,7 @@ namespace BaslerCamera
         /// <returns></returns>
         bool SetFrameSpecInfo(bool value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 return SetBoolValue("FrameSpecInfo", value);
             }
@@ -6746,7 +6747,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool SetLine2Mode(LineMode value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 if (SetLineSelector(LineSelector.Line2))
                 {
@@ -6852,7 +6853,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool SetLine1Inverter(bool value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 if (SetLineSelector(LineSelector.Line1))
                 {
@@ -6889,7 +6890,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool SetLine2Inverter(bool value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 if (SetLineSelector(LineSelector.Line2))
                 {
@@ -6991,7 +6992,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool SetLine1StrobeEnable(bool value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 if (SetLineSelector(LineSelector.Line1))
                 {
@@ -7019,7 +7020,7 @@ namespace BaslerCamera
         /// <returns></returns>
         public bool SetLine2StrobeEnable(bool value)
         {
-            if (_manufacturerName == "Hikrobot")
+            if (_manufacturerName == "Hikrobot"||_manufacturerName == "GEV")
             {
                 if (SetLineSelector(LineSelector.Line2))
                 {
