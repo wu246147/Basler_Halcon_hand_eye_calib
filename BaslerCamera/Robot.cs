@@ -885,23 +885,23 @@ namespace BaslerCamera
                     if (string.IsNullOrEmpty(s)) return defaultValue;
                     return int.TryParse(s, out int v) ? v : defaultValue;
                 }
+                int total = parts.Length;
 
                 // ---- 关节角 J1~J6 (索引 7~12) ----
-                R1 = SafeFloat(7);    // J1: -86.6277
-                R2 = SafeFloat(8);    // J2: -27.53063
-                R3 = SafeFloat(9);    // J3: -18.65816
-                R4 = SafeFloat(10);   // J4: -178.16177
-                R5 = SafeFloat(11);   // J5: 12.41696
-                R6 = SafeFloat(12);   // J6: -5.59366
+                R1 = SafeFloat(total - 6);    // J1: -86.6277
+                R2 = SafeFloat(total - 5);    // J2: -27.53063
+                R3 = SafeFloat(total - 4);    // J3: -18.65816
+                R4 = SafeFloat(total - 3);   // J4: -178.16177
+                R5 = SafeFloat(total - 2);   // J5: 12.41696
+                R6 = SafeFloat(total - 1);   // J6: -5.59366
 
                 // ---- 末端位姿 X,Y,Z,RX,RY,RZ (倒数第 7~2 位) ----
-                int total = parts.Length;
-                X = SafeFloat(total - 6);   // -2446.65137
-                Y = SafeFloat(total - 5);   // 218.11565
-                Z = SafeFloat(total - 4);   // 2085.89941
-                RX = SafeFloat(total - 3);   // 87.2569
-                RY = SafeFloat(total - 2);   // 86.23324
-                RZ = SafeFloat(total - 1);   // -3.54589
+                X = SafeFloat(total - 14);   // -2446.65137
+                Y = SafeFloat(total - 13);   // 218.11565
+                Z = SafeFloat(total - 12);   // 2085.89941
+                RX = SafeFloat(total - 11);   // 87.2569
+                RY = SafeFloat(total - 10);   // 86.23324
+                RZ = SafeFloat(total - 9);   // -3.54589
 
                 //zyz 转 xyz
                 double transformRX = 0, transformRY = 0, transformRz = 0;
@@ -930,10 +930,13 @@ namespace BaslerCamera
         bool _isOpen = false;
 
         string _ip = string.Empty;
-        int _port = 60008;
+        int _port = 0;
         //HslCommunication.Robot.FANUC.FanucInterfaceNet robot = new HslCommunication.Robot.FANUC.FanucInterfaceNet();
 
-        TCP_Client robot;
+        // 川崎使用 UDP 通信；UDP 类的公共接口与原 TCP_Client 保持一致，便于切换通信方式。
+        UDP robot;
+        // 电脑本地 UDP 监听端口；0 表示由操作系统自动分配。
+        int _localPort = 60008;
 
         //寄存数据
         bool _isExist = false;
@@ -1030,19 +1033,34 @@ namespace BaslerCamera
         }
         public bool Open()
         {
-            robot = new TCP_Client(_ip, _port);
+            // 重新打开前清理旧的 UDP Socket，避免重复绑定本地端口。
+            if (robot != null)
+            {
+                robot.Disconnect();
+            }
+
+            _isExist = false;
+            robot = new UDP(_ip, _port);
+            // 构造函数中的 _port 是远程端口，本地监听端口单独设置。
+            robot.LocalPort = _localPort;
             //绑定委托与事件
             robot.OnDataReceived += ProcessInfo;
             //开始监听
             robot.Connect();
 
-            _isOpen = true;
-            return true;
+            // UDP Connect() 只表示本地 Socket 创建并绑定成功，不代表远端机器人在线。
+            _isOpen = robot.IsConnected;
+            if (!_isOpen)
+            {
+                _errMsg = "UDP Socket 创建或本地端口绑定失败。";
+            }
+            return _isOpen;
         }
         public bool Open(string ip, int port)
         {
             _ip = ip;
-            _port = port;
+            //_port = port;
+            _localPort = port;
             return Open();
         }
 
@@ -1052,6 +1070,7 @@ namespace BaslerCamera
             {
                 robot.Disconnect();
             }
+            _isExist = false;
             _isOpen = false;
             return true;
         }

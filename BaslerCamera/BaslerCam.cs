@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Basler.Pylon;
 using System.Drawing;
 using System.Drawing.Imaging;
