@@ -5242,7 +5242,7 @@ namespace BaslerCamera
                 //while (IsGrabbing)
                 {
                     MV_FRAME_OUT stFrameOut = new MV_FRAME_OUT();
-                    int nRet = MV_CC_GetImageBuffer_NET(ref stFrameOut, 1000);
+                    int nRet = MV_CC_GetImageBuffer_NET(ref stFrameOut, 9000);
                     StopGrabbing();
                     if (MvCamera.MV_OK == nRet)
                     {

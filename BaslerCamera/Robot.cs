@@ -965,8 +965,8 @@ namespace BaslerCamera
                 hPose = new HPose(x, y, z, rx, ry, rz, "Rp+T", "abg", "point");
 
 
-                string info = serializationInfo(_X, _Y, _Z, _RZ, _RY, _RX, 1, "11");
-                robot.Send(info + "\r\n");
+                //string info = serializationInfo(_X, _Y, _Z, _RZ, _RY, _RX, 1, "11");
+                //robot.Send(info + "\r\n");
             }
             else
             {
